@@ -103,7 +103,8 @@ class Gallery {
         picNoteEl.classList.add('fa-regular', 'fa-note-sticky')
         pictureNote.appendChild(picNoteEl)
         const pictureDate = document.createElement('div');
-        pictureDate.classList.add('fs-6', 'bg-dark', 'text-white', 'text-center', 'rounded-2', 'px-2', 'px-sm-2')
+        pictureDate.classList.add('fs-8', 'text-dark', 'text-center', 'rounded-2', 'px-2', 'px-sm-2')
+        pictureDate.style.fontWeight = 'bold'
         pictureDate.textContent = this.loadDate();
         pictureDate.setAttribute('data-date', this.loadDate());
         const pictureId = document.createElement('div')
@@ -112,20 +113,27 @@ class Gallery {
         const pictureIconId = document.createElement('div');
         pictureIconId.classList.add('pictureIdIcon')
         const picturePrice = document.createElement('div');
-        picturePrice.classList.add('fs-6', 'bg-dark', 'text-white', 'text-center', 'rounded-2', 'px-2', 'px-sm-2');
+        picturePrice.classList.add('fs-9', 'bg-dark', 'text-white', 'text-center', 'rounded-2', 'px-2', 'px-sm-2');
+        picturePrice.style.fontSize = '1rem';
         picturePrice.textContent = `$${picture.price}`;
         const pictureBtnDl = document.createElement('button');
-        pictureBtnDl.classList.add('delete', 'btn', 'btn-danger', 'btn-sm', 'mx-2')
+        pictureBtnDl.classList.add('delete', 'btn', 'btn-danger', 'btn-sm', 'mx-9')
         const pictureBtnIconDl = document.createElement('i');
         pictureBtnIconDl.classList.add('fa-solid', 'fa-xmark')
         pictureBtnDl.insertAdjacentElement('beforeend', pictureBtnIconDl)
         const pictureBtnS = document.createElement('button');
-        pictureBtnS.classList.add('sold', 'btn', 'btn-success', 'btn-sm', 'mx-2',)
+        pictureBtnS.classList.add('sold', 'btn', 'btn-success', 'btn-sm', 'mx-7')
+        // pictureBtnDl.style.width = '10px'
         // pictureBtnS.setAttribute('data-bs-toggle','modal')
         const pictureBtnIconS = document.createElement('i');
         pictureBtnIconS.classList.add('fa-solid', 'fa-dollar-sign')
         pictureBtnS.insertAdjacentElement('beforeend', pictureBtnIconS)
+        // pictureBtnS.style.margin = '1px'
         const btnContainer = document.createElement('div');
+        btnContainer.style.display = 'flex';
+        btnContainer.style.alignItems = 'center';
+        btnContainer.style.justifyContent = 'center';
+        btnContainer.style.marginLeft = '5px';
         pictureIconId.insertAdjacentElement('afterbegin', pictureName)
         pictureIconId.insertAdjacentElement('beforeend', pictureId)
 
