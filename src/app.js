@@ -198,7 +198,7 @@ class App {
     } 
     _itemEditor(e) {
         e.preventDefault();
-        const tags = ['grey', 'blue', 'green', 'orange', 'yellow'] 
+        const tags = ['white', 'blue', 'green', 'orange', 'yellow'] 
         const tagClasses = ['btn-outline-secondary', 'btn-outline-info', 'btn-outline-success', 'btn-outline-warning','btn-outline-danger']
         // const imgSrc = e.target.closest('.card').getAttribute('data-img');
         const tagValue = e.target.closest('.card').getAttribute('data-tag');
@@ -408,14 +408,14 @@ class App {
                         note: note,
 
                     }
-                        self._gallery.addPicture(editedPicture)
-                        picturesElements.forEach((pic) => {
-                            if (pic.getAttribute('data-id') === id) {
-                                self._gallery.removePicture(id)
-                                pic.remove()
-
-                            }
-                        })
+                    self._gallery.removePicture(id)
+                    picturesElements.forEach((pic) => {
+                        if (pic.getAttribute('data-id') === id) {
+                            pic.remove()
+                            
+                        }
+                    })
+                    self._gallery.addPicture(editedPicture)
                         editItemFormContainer.remove()
                     // }
                     // console.log(picturesElements)
