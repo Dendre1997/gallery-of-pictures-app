@@ -10945,6 +10945,9 @@ body {
     position: relative;
 
 }
+header {
+    padding:0 4.2rem;
+}
 .tag-color {
     margin-bottom: 0.3rem;
 }
@@ -10978,4 +10981,22 @@ body {
     width: 100%;
     height: 300px;
     /* Adjust the height as needed */
+}
+#nav-btn-container {
+    position: absolute;
+    top: 0;
+    left: 0.5rem;
+    /* margin-right: 1rem; */
+    /* display: flex;
+    align-items:center;
+    justify-content: center;
+    width: 100%; */
+    /* height: 100%; */
+    /* background-color: rgba(0, 0, 0, 0.5) */
+}
+
+@media(max-width: 580px) {
+    #nav-btn-container {
+        top: 1.2rem;
+    }
 }

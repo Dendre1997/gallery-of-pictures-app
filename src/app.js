@@ -28,8 +28,12 @@ class App {
         document.getElementById('button-addon3').addEventListener('click', this._setTagCol.bind(this));
         
         document.getElementById('pictures-items').addEventListener('click', this._displayNotes.bind(this));
+
+        document.getElementById('nav-bar').addEventListener('click', this._loadNavBar.bind(this))
+
+        // document.addEventListener('click', this._outsideClick.bind(this));
         // Edit Items EventListeners
-        
+        // document.getElementById('nav-bar-el').addEventListener('click', this._navBar.bind(this))
     }
     _newItem(type,e) {
         e.preventDefault();
@@ -578,6 +582,94 @@ document.body.appendChild(editItemFormContainer);
         }
         
     }
+    
+    _loadNavBar(e) {
+        e.preventDefault();
+        const navBarOuter = document.createElement('div');
+        navBarOuter.style.height = window.innerHeight + 'px';
+        navBarOuter.classList.add('navBarOuter');
+        navBarOuter.style.width = '100%';
+        navBarOuter.style.position = 'absolute';
+        navBarOuter.style.top = '0';
+        navBarOuter.style.left = '0';
+        navBarOuter.style.backgroundColor = 'rgba(52, 58, 64, 0.5)';
+        const navBar = document.createElement('div')
+        navBar.setAttribute('id', 'nav-bar-el')
+        navBar.style.height = window.innerHeight + 'px';
+        navBar.style.width = '40%';
+        navBar.style.position = 'absolute';
+        navBar.style.top = '0';
+        navBar.style.left = '-1000px';
+        navBar.style.transition = 'all 0.5s ease-in-out';
+        navBar.style.backgroundColor = '#343a40';
+        // navBar inner
+        const navBarInner = document.createElement('div');
+        navBarInner.style.height = '100%'
+        navBarInner.style.width = '100%';
+        navBarInner.style.paddingTop = '5rem';
+        navBarInner.style.position = 'relative';
+        // navBarInner.textContent = 'NavBer'
+        // colse bar btn
+        const closeBtn = document.createElement('button');
+        closeBtn.setAttribute('type', 'button');
+        closeBtn.classList.add('btn-close', 'btn-close-white')
+        closeBtn.setAttribute('aria-label', 'Close')
+        closeBtn.style.position = 'absolute';
+        closeBtn.style.right = '0.5rem';
+        closeBtn.style.top = '0.5rem';
+        
+        
+        // List group nav
+        const listgroup = document.createElement('div');
+        listgroup.classList.add('list-group');
+        const listSoldItems = document.createElement('button');
+        listSoldItems.setAttribute('type', 'button');
+        listSoldItems.textContent = 'Sold Pictures';
+        listSoldItems.classList.add('list-group-item', 'list-group-item-action', 'flex-column', 'align-items-center');
+        listSoldItems.setAttribute('id', 'sold-pictures-list');
+        listSoldItems.style.borderRadius = '0'
+        listSoldItems.style.fontWeight = 'bold'
+
+        
+        listgroup.appendChild(listSoldItems);
+        navBar.appendChild(navBarInner);
+        navBarInner.appendChild(listgroup);
+        navBarInner.appendChild(closeBtn)
+
+        document.body.appendChild(navBarOuter)
+        document.body.appendChild(navBar);
+        
+        setTimeout(() => {
+            navBar.style.left = 0;
+        }, 100)
+        navBar.addEventListener('click', (event) => {
+            if (event.target === closeBtn) {
+                navBar.style.left = '-1000px';
+                navBarOuter.style.left = '-1000px';
+                setTimeout(() => {
+                    navBar.remove()
+                    navBarOuter.remove()
+                }, 100)
+            }
+            if (event.target === listSoldItems) {
+                navBar.remove()
+                navBarOuter.remove()
+                this._gallery._displaySoldPictures();
+            }
+        })
+        navBarOuter.addEventListener('click', () => { 
+            navBar.style.left = '-1000px';
+                navBarOuter.style.left = '-1000px';
+                setTimeout(() => {
+                    navBar.remove()
+                    navBarOuter.remove()
+                }, 100)
+        })
+    }
+    _navBar() {
+
+    }
+
     _reset(e) {
         this._gallery.reset();
         document.getElementById('pictures-items').innerHTML = '';
