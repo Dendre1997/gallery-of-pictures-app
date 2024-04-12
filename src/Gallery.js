@@ -92,17 +92,19 @@ pictureEl.style.backgroundColor = this.tagGetGradient(picture.tagCol);
 // Create pictureElFlex
 const pictureElFlex = document.createElement('div');
 pictureElFlex.classList.add('row');
+// pictureElFlex.style.paddingLeft = '10px';
 
 // Create elements for pictureIconId
 const pictureIconId = document.createElement('div');
 pictureIconId.classList.add('col', 'pictureIdIcon');
 const pictureName = document.createElement('i');
 pictureName.classList.add('fa-regular', 'fa-image', 'pic-details');
-pictureName.style.fontSize = '2rem';
+pictureName.style.fontSize = '1.8rem';
 pictureName.style.marginLeft = '0.2rem';
 pictureName.style.marginRight = '0.2rem';
 pictureName.style.cursor = 'pointer';
 const pictureId = document.createElement('div');
+pictureId.classList.add('media-font-size')
 pictureId.textContent = picture.id;
 pictureId.style.fontWeight = 'bold';
 
@@ -114,12 +116,13 @@ pictureNote.style.justifyContent = 'center';
 pictureNote.style.alignItems = 'center';
 pictureNote.style.padding = '0'
 const picNoteEl = document.createElement('i');
-picNoteEl.classList.add('fa-regular', 'fa-note-sticky');
+picNoteEl.classList.add('fa-regular', 'fa-note-sticky', 'media-font-size');
+// picNoteEl.style.fontSize = '1.5rem';
 pictureNote.appendChild(picNoteEl);
 
 // Create elements for pictureDate
 const pictureDate = document.createElement('div');
-pictureDate.classList.add('col', 'fs-8', 'text-dark', 'text-center', 'rounded-2', 'px-2', 'px-sm-2');
+pictureDate.classList.add('col', 'fs-8', 'text-dark', 'text-center', 'rounded-2', 'px-2', 'px-sm-2', 'media-font-size');
 pictureDate.style.fontWeight = 'bold';
 pictureDate.style.display = 'flex';
 pictureDate.style.justifyContent = 'center';
@@ -129,12 +132,12 @@ pictureDate.textContent = this.loadDate();
 
 // Create elements for picturePrice
 const picturePrice = document.createElement('div');
-picturePrice.classList.add('col', 'fs-9', 'bg-dark', 'text-white', 'text-center', 'rounded-2', 'px-2', 'px-sm-2');
+picturePrice.classList.add('col', 'fs-9', 'bg-dark', 'text-white', 'text-center', 'rounded-2', 'px-2', 'px-sm-2', 'media-font-size');
         // picturePrice.style.textAlign = 'center';
 picturePrice.style.display = 'flex';
 picturePrice.style.justifyContent = 'center';
 picturePrice.style.alignItems = 'center';
-picturePrice.style.fontSize = '1rem';
+// picturePrice.style.fontSize = '0.5rem';
 picturePrice.textContent = `$${picture.price}`;
 
 // Create elements for buttons
@@ -174,7 +177,9 @@ pictureElFlex.appendChild(btnContainer);
 
 // Append pictureElFlex to pictureEl and then to picturesELs
 pictureEl.appendChild(pictureElFlex);
-picturesELs.insertAdjacentElement('afterbegin', pictureEl);
+        picturesELs.insertAdjacentElement('afterbegin', pictureEl);
+        
+        
     }
     
     _getNotes(id) {
@@ -186,7 +191,8 @@ picturesELs.insertAdjacentElement('afterbegin', pictureEl);
     }
     
     _displaySoldPictures() { 
-        const soldPicturesArray = this._soldPictures
+        const soldPicturesArray = Storage.getSoldPic()
+        // soldPicturesArray.reverse()
         const soldPicContainer = document.createElement('div')
         soldPicContainer.classList.add('sold-pic-container')
         soldPicContainer.style.position = 'absolute'
@@ -201,8 +207,9 @@ picturesELs.insertAdjacentElement('afterbegin', pictureEl);
         // Pictures Inner
         const picInner = document.createElement('div')
         picInner.style.width = '100%'
-        picInner.style.height = '100%'
+        // picInner.style.height = window.innerHeight + 'px'
         picInner.style.position = 'relative'
+        picInner.style.backgroundColor = 'white'
         picInner.style.paddingTop = '5rem'
 
         // close Button
@@ -229,7 +236,7 @@ picturesELs.insertAdjacentElement('afterbegin', pictureEl);
         const soldPicturesList = document.createElement('div')
         soldPicturesList.classList.add('list-group', 'sold-pictures-list')
         
-        soldPicturesArray.forEach((picture) => {
+        soldPicturesArray.reverse().forEach((picture) => {
             // console.log(picture)
             const picEl = document.createElement('div')
             picEl.classList.add('col')
@@ -253,7 +260,7 @@ picturesELs.insertAdjacentElement('afterbegin', pictureEl);
             picEl.appendChild(picSoldDate)
             picEl.appendChild(picPrice)
             soldPicturesList.appendChild(picEl)
-            console.log(picture)
+            // console.log(picture)
         })
         // Append
 
@@ -266,6 +273,7 @@ picturesELs.insertAdjacentElement('afterbegin', pictureEl);
         // Events
         closeButton.addEventListener('click', () => {
             soldPicContainer.style.top = '-10000px'
+            document.body.style.overflow = 'visible'
             setTimeout(() => {
                 soldPicContainer.remove()
             }, 200)

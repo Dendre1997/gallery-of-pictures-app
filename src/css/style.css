@@ -1,5 +1,5 @@
 body {
-    height: 100%;
+    height: scroll;
     /* height: 100vh; */
     position: relative;
 
@@ -17,9 +17,10 @@ header {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: #fff;
+    /* background-color: #fff; */
+    /* padding-left: 2rem; */
     border-radius: 8px;
-    padding-right: 0.2rem;
+    /* padding-right: 0.2rem; */
     /* flex-direction: column; */
 }
 
@@ -58,8 +59,17 @@ header {
     text-align: center;
 } */
 
+.media-font-size {
+    font-size: 1.2rem;
+}
 @media(max-width: 580px) {
     #nav-btn-container {
         top: 1.2rem;
     }
 }
+
+@media(max-width:450px) {
+    .media-font-size {
+         font-size: 0.8rem;
+    }
+} 

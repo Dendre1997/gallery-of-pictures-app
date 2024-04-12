@@ -115,7 +115,7 @@ class App {
 
     _soldPicture(e) {
         e.preventDefault();
-        if (e.target.classList.contains('sold') || e.target.classList.contains('fa-dollar-sign')) {
+        if (e.target.closest('.sold')) {
             const id = e.target.closest('.card').getAttribute('data-id')
             const price = e.target.closest('.card').getAttribute('data-price')
             const tag = e.target.closest('.card').getAttribute('data-tag')
@@ -217,7 +217,7 @@ class App {
         //     e.target.classList.contains('delete') ||
         //     e.target.classList.contains('fa-xmark')) {
             // Create endit Items inner
-            if (e.target.classList.contains('pictureIdIcon') || e.target.classList.contains('fa-image')) {
+            if (e.target.closest('.pictureIdIcon') || e.target.classList.contains('fa-image')) {
                 const editItemFormContainer = document.createElement('div');
                 editItemFormContainer.style.height = window.innerHeight + 'px';
                 editItemFormContainer.classList.add('editItemContainer');
@@ -430,9 +430,9 @@ class App {
             // editForm.appendChild(prevImg)
             // editForm.appendChild(prevImgContainer)
                 // editForm.appendChild(uplImgContainer)
-            editForm.appendChild(noteEditCont)
-            editForm.appendChild(tagbtnContainer)
-            editForm.appendChild(epriceC)
+                editForm.appendChild(tagbtnContainer)
+                editForm.appendChild(epriceC)
+                editForm.appendChild(noteEditCont)
             editForm.appendChild(buttonSubmitEdit)
             editForm.appendChild(btnAddDiscount)
             card.appendChild(editForm)
@@ -549,6 +549,11 @@ document.body.appendChild(editItemFormContainer);
             }
             // console.log(result)
         })
+            confirmItemFormContainer.addEventListener('click', () => {
+            resolve(false)
+            confirmItemFormContainer.remove();
+        })
+                
         document.body.appendChild(confirmItemFormContainer)
         })
         
@@ -636,6 +641,7 @@ document.body.appendChild(editItemFormContainer);
         navBarInner.appendChild(listgroup);
         navBarInner.appendChild(closeBtn)
 
+        document.body.style.overflow = 'hidden';
         document.body.appendChild(navBarOuter)
         document.body.appendChild(navBar);
         
@@ -643,23 +649,27 @@ document.body.appendChild(editItemFormContainer);
             navBar.style.left = 0;
         }, 100)
         navBar.addEventListener('click', (event) => {
+            event.preventDefault();
             if (event.target === closeBtn) {
                 navBar.style.left = '-1000px';
                 navBarOuter.style.left = '-1000px';
+                document.body.style.overflow = 'auto';
                 setTimeout(() => {
                     navBar.remove()
                     navBarOuter.remove()
-                }, 100)
+                }, 50)
             }
             if (event.target === listSoldItems) {
                 navBar.remove()
                 navBarOuter.remove()
                 this._gallery._displaySoldPictures();
+                document.body.style.overflow = 'scroll';
             }
         })
         navBarOuter.addEventListener('click', () => { 
             navBar.style.left = '-1000px';
-                navBarOuter.style.left = '-1000px';
+            navBarOuter.style.left = '-1000px';
+            document.body.style.overflow = 'auto';
                 setTimeout(() => {
                     navBar.remove()
                     navBarOuter.remove()
