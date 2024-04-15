@@ -117,8 +117,9 @@ pictureNote.style.alignItems = 'center';
 pictureNote.style.padding = '0'
 const picNoteEl = document.createElement('i');
 picNoteEl.classList.add('fa-regular', 'fa-note-sticky', 'media-font-size');
-// picNoteEl.style.fontSize = '1.5rem';
 pictureNote.appendChild(picNoteEl);
+        // picNoteEl.style.fontSize = '1.5rem';
+        
 
 // Create elements for pictureDate
 const pictureDate = document.createElement('div');
@@ -168,7 +169,9 @@ btnContainer.style.alignItems = 'center';
 pictureIconId.appendChild(pictureName);
 pictureIconId.appendChild(pictureId);
 pictureElFlex.appendChild(pictureIconId);
-pictureElFlex.appendChild(pictureNote);
+if (picture.note !== 'Here is no note') {
+    pictureElFlex.appendChild(pictureNote);
+}        
 pictureElFlex.appendChild(pictureDate);
 pictureElFlex.appendChild(picturePrice);
 btnContainer.appendChild(pictureBtnS);
@@ -232,39 +235,98 @@ pictureEl.appendChild(pictureElFlex);
         closeButton.appendChild(btnClosseIco)
         // soldPicContainer.zIndex = '9999'
 
+
+        // Filter by date
+        const filterBydateContainer = document.createElement('div')
+        filterBydateContainer.classList.add('dropdown')
+        filterBydateContainer.style.paddingLeft = '1rem'
+        filterBydateContainer.style.paddingBottom = '0.2rem'
+        const dropDownBtn = document.createElement('button')
+        dropDownBtn.classList.add('btn', 'btn-dark', 'dropdown-toggle')
+        dropDownBtn.setAttribute('type', 'button')
+        dropDownBtn.setAttribute('id', 'dropdownMenuButton')
+        dropDownBtn.setAttribute('data-toggle', 'dropdown')
+        dropDownBtn.textContent = 'Filter Pictures'
+
+        // dropDownBtn.setAttribute('aria-haspopup', 'true')
+        // dropDownBtn.setAttribute('aria-expanded', 'false')
+
+
+        const filterBydateSelect = document.createElement('div')
+        filterBydateSelect.classList.add('dropdown-menu')
+        // filterBydateSelect.setAttribute('aria-labelledby', 'dropdownMenuButton')
+        const optionLastSevenDays = document.createElement('a')
+        optionLastSevenDays.classList.add('dropdown-item')
+        optionLastSevenDays.setAttribute('id','display-for-seven-days')
+        optionLastSevenDays.setAttribute('href', '#')
+        optionLastSevenDays.textContent = 'Show For Last 7 Days'
+        const optionDisplayAll = document.createElement('a')
+        optionDisplayAll.classList.add('dropdown-item')
+        optionDisplayAll.setAttribute('href', '#')
+        optionDisplayAll.setAttribute('id', 'display-all-pictures')
+        optionDisplayAll.textContent = 'Show All'
+        filterBydateSelect.appendChild(optionLastSevenDays)
+        filterBydateSelect.appendChild(optionDisplayAll)
+        
+
+        filterBydateContainer.appendChild(dropDownBtn)
+        filterBydateContainer.appendChild(filterBydateSelect)
+
+        dropDownBtn.addEventListener('click', () => {
+            if (filterBydateSelect.style.display !== 'block') {
+                filterBydateSelect.style.display = 'block'
+            } else {
+                filterBydateSelect.style.display = 'none'
+            }
+        })
         // Sold pictures List
         const soldPicturesList = document.createElement('div')
         soldPicturesList.classList.add('list-group', 'sold-pictures-list')
+        const soldPicInfoTable = document.createElement('div')
+        soldPicInfoTable.classList.add('col', 'sold-picture-element')
+            soldPicInfoTable.style.display = 'flex'
+            soldPicInfoTable.style.justifyContent = 'space-between'
+            soldPicInfoTable.style.alignItems = 'center'
+            soldPicInfoTable.style.padding = '0.5rem'
+            // soldPicInfoTable.style.marginBottom = '0.2rem'
+            soldPicInfoTable.style.fontWeight = 'bold'
+            soldPicInfoTable.style.backgroundColor = 'white'
+            // soldPicInfoTable.setAttribute('data-date')
+            const picId = document.createElement('div')
+            picId.textContent = `ID`
+            const picDate = document.createElement('div')
+            picDate.textContent = `Date`
+            const picSoldDate = document.createElement('div')
+            picSoldDate.textContent = `Sold Date`
+            const picPrice = document.createElement('div')
+            picPrice.textContent = `Price`
+            const atStock = document.createElement('div')
+            atStock.textContent = `At Stock`
+            soldPicInfoTable.appendChild(picId)
+            soldPicInfoTable.appendChild(picDate)
+            soldPicInfoTable.appendChild(picSoldDate)
+            soldPicInfoTable.appendChild(picPrice)
+            soldPicInfoTable.appendChild(atStock)
         
+            
+            soldPicturesList.appendChild(soldPicInfoTable)
+            
+            const children = soldPicInfoTable.children
+            // console.log(children)
+            for (let i = 0; i < children.length; i++) {
+            children[i].classList.add('flex-element-soldPic-item')
+        }
+
         soldPicturesArray.reverse().forEach((picture) => {
             // console.log(picture)
-            const picEl = document.createElement('div')
-            picEl.classList.add('col')
-            picEl.style.display = 'flex'
-            picEl.style.justifyContent = 'space-between'
-            picEl.style.alignItems = 'center'
-            picEl.style.padding = '0.5rem'
-            picEl.style.marginBottom = '0.2rem'
-            picEl.style.fontWeight = 'bold'
-            picEl.style.backgroundColor = this.tagGetGradient(picture.tag)
-            const picId = document.createElement('div')
-            picId.textContent = `ID:${picture.id}`
-            const picDate = document.createElement('div')
-            picDate.textContent = `Date: ${picture.date}`
-            const picSoldDate = document.createElement('div')
-            picSoldDate.textContent = `Sold Date: ${picture.soldDate}`
-            const picPrice = document.createElement('div')
-            picPrice.textContent = `Price: ${picture.price}`
-            picEl.appendChild(picId)
-            picEl.appendChild(picDate)
-            picEl.appendChild(picSoldDate)
-            picEl.appendChild(picPrice)
+            const picEl = this._displaySoldPicturesElements(picture)        
             soldPicturesList.appendChild(picEl)
             // console.log(picture)
         })
         // Append
 
         picInner.appendChild(closeButton)
+        picInner.appendChild(filterBydateContainer)
         picInner.appendChild(soldPicturesList)
         soldPicContainer.appendChild(picInner)
 
@@ -283,7 +345,112 @@ pictureEl.appendChild(pictureElFlex);
         setTimeout(() => {
             soldPicContainer.style.top = '0'
         }, 200)
+        const reversedArray = soldPicturesArray
+        filterBydateSelect.addEventListener('click', (e) => {
+            const filteredElementsSevenDays = this._sortByDate(reversedArray, 'last 7 days')
+            if (e.target.getAttribute('id') === 'display-for-seven-days') {
+                soldPicturesList.innerHTML = ''
+                soldPicturesList.appendChild(soldPicInfoTable)
+                filteredElementsSevenDays.forEach((picture) => {
+                    const picEl = this._displaySoldPicturesElements(picture)        
+                    filterBydateSelect.style.display = 'none'
+                    soldPicturesList.appendChild(picEl)
+                    // console.log(picture)
+                })
+            } else if (e.target.getAttribute('id') === 'display-all-pictures') {
+                soldPicturesList.innerHTML = '';
+                soldPicturesList.appendChild(soldPicInfoTable)
+                reversedArray.forEach((picture) => {
+                    const picEl = this._displaySoldPicturesElements(picture)        
+                    filterBydateSelect.style.display = 'none'
+                    soldPicturesList.appendChild(picEl)
+                    // console.log(picture)
+                })
+            }
+        })
 
+    }
+    _displaySoldPicturesElements(picture) {
+        const picEl = document.createElement('div')
+            picEl.classList.add('col', 'sold-picture-element')
+            picEl.style.display = 'flex'
+            // picEl.style.justifyContent = 'space-between'
+            picEl.style.alignItems = 'center'
+            picEl.style.padding = '0.5rem'
+            picEl.style.marginBottom = '0.2rem'
+            picEl.style.fontWeight = 'bold'
+            picEl.style.backgroundColor = this.tagGetGradient(picture.tag)
+            picEl.setAttribute('data-date', picture.date)
+            const picId = document.createElement('div')
+            // picId.classList.add('flex-element-soldPic-item')
+            picId.textContent = `${picture.id}`
+            const picDate = document.createElement('div')
+            picDate.textContent = `${picture.date}`
+            const picSoldDate = document.createElement('div')
+            picSoldDate.textContent = `${picture.soldDate}`
+            const picPrice = document.createElement('div')
+            picPrice.textContent = `${picture.price}`
+            const atStock = document.createElement('div')
+            atStock.textContent = this._daysAtStock(picture)
+            picEl.appendChild(picId)
+            picEl.appendChild(picDate)
+            picEl.appendChild(picSoldDate)
+            picEl.appendChild(picPrice)
+            picEl.appendChild(atStock)
+            const children = picEl.children
+        for (let i = 0; i < children.length; i++) {
+            children[i].classList.add('flex-element-soldPic-item')
+        }
+        return picEl
+    }
+
+    _sortByDate(elements, term) {
+        const today = new Date();
+        let filteredElements = elements
+        if (term === 'last 7 days') {
+        const lastSevenDaysStart = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6);
+
+    filteredElements = filteredElements.filter(element => {
+        const [day, month] = element.soldDate.split("/");
+        const elementDate = new Date(today.getFullYear(), month - 1, day); // Note: month - 1 because months are zero-indexed in JavaScript
+        return elementDate >= lastSevenDaysStart && elementDate <= today;
+    });        
+}
+ return filteredElements;
+    
+
+    }
+
+    _daysAtStock(element) {
+        const [startDay, startMonth] = element.date.split('/');
+        const startDate = new Date(`2024-${startMonth}-${startDay}`)
+        const [endDay, endMonth] = element.soldDate.split('/');
+        const endDate = new Date(`2024-${endMonth}-${endDay}`)
+
+        // Calculate the difference in milliseconds
+        const differenceMs = endDate.getTime() - startDate.getTime();
+    // Check if parsing succeeded
+        // Check if start and end dates are the same
+        // if (startDate === endDate) {
+        // return `1 Day`; // If start and end dates are the same, return 1 day
+        // }
+
+    // Check if difference calculation succeeded
+    if (isNaN(differenceMs)) {
+        console.error("Failed to calculate difference");
+        return;
+    }
+    // Convert milliseconds to days
+    let differenceDays = differenceMs / (1000 * 60 * 60 * 24);
+
+    // Ensure the minimum difference is 1 day
+    differenceDays = Math.max(1, differenceDays);
+        if (differenceDays > 1) {
+        return `${differenceDays} Days`
+        } else {
+            
+            return `${differenceDays} Day`;
+    }
     }
 
     _render() {
