@@ -10956,7 +10956,7 @@ header {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
     text-align: center;
     /* background-color: #fff; */
     /* padding-left: 2rem; */
@@ -10994,6 +10994,13 @@ header {
     width: 100%; */
     /* height: 100%; */
     /* background-color: rgba(0, 0, 0, 0.5) */
+}
+
+.flex-element-soldPic-item {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* .picManager-title {

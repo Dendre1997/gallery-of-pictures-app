@@ -23,8 +23,8 @@ class App {
         document.getElementById('pictures-items').addEventListener('click', this._itemEditor.bind(this))
         document.getElementById('filter-pictures')
             .addEventListener('keyup', this._filterItems.bind(this, 'pictures'));
-        document.getElementById('reset')
-            .addEventListener('click', this._reset.bind(this))
+        // document.getElementById('reset')
+            // .addEventListener('click', this._reset.bind(this))
         document.getElementById('button-addon3').addEventListener('click', this._setTagCol.bind(this));
         
         document.getElementById('pictures-items').addEventListener('click', this._displayNotes.bind(this));
@@ -346,6 +346,12 @@ class App {
                 // Submit
                 
                 buttonSubmitEdit.textContent = 'Submit'
+                editItemFormContainer.addEventListener('click', (event) => {
+                    if(!event.target.closest('.card')) {
+                        editItemFormContainer.remove()      
+                    }
+                })
+
                 editForm.addEventListener('submit', (e) => {
                     e.preventDefault();
                     const picturesElements = document.querySelectorAll('.PicElement')
@@ -561,7 +567,7 @@ document.body.appendChild(editItemFormContainer);
     }
     _displayNotes(e) {
         const id = e.target.closest('.card').getAttribute('data-id');
-        if (e.target.classList.contains('note-btn') || e.target.classList.contains('fa-note-sticky')) {
+        if (e.target.closest('.note-btn')) {
             const noteContainer = document.createElement('div');
         noteContainer.style.height = window.innerHeight + 'px';
         noteContainer.classList.add('editItemContainer');

@@ -70,9 +70,9 @@ header {
     font-size: 1.2rem;
 }
 @media(max-width: 580px) {
-    #nav-btn-container {
-        top: 1.2rem;
-    }
+    /* #nav-btn-container { */
+        /* top: 0.rem; */
+    /* } */
 }
 
 @media(max-width:450px) {
