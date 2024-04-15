@@ -86,7 +86,7 @@ pictureEl.setAttribute('data-id', picture.id);
 pictureEl.setAttribute('data-price', picture.price);
 pictureEl.setAttribute('data-tag', picture.tagCol);
 pictureEl.setAttribute('data-img', picture.img);
-pictureEl.setAttribute('data-date', this.loadDate());
+pictureEl.setAttribute('data-date', picture.date);
 pictureEl.style.backgroundColor = this.tagGetGradient(picture.tagCol);
 
 // Create pictureElFlex
@@ -129,7 +129,7 @@ pictureDate.style.display = 'flex';
 pictureDate.style.justifyContent = 'center';
 pictureDate.style.alignItems = 'center';
 // pictureDate.style.padding = '0'
-pictureDate.textContent = this.loadDate();
+pictureDate.textContent = picture.date;
 
 // Create elements for picturePrice
 const picturePrice = document.createElement('div');

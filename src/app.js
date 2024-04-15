@@ -207,6 +207,7 @@ class App {
         // const imgSrc = e.target.closest('.card').getAttribute('data-img');
         const tagValue = e.target.closest('.card').getAttribute('data-tag');
         const id = e.target.closest('.card').getAttribute('data-id');
+        const date = e.target.closest('.card').getAttribute('data-date');
         // const blod = new Blob([imgSrc], { type: 'image/*' })
         // const blobUrl = URL.createObjectURL(blod);
         // if (e.target.classList.contains('pic-details') ||
@@ -402,7 +403,7 @@ class App {
                     //     return;
                     // } else {
                         // console.log(imgUrl)
-                        const date = self._gallery.loadDate()
+                        // const date = self._gallery.loadDate()
                     // const editedPicture = new Picture(price.value, tagValueEd, date)
                     const editedPicture = {
                         id: id,
@@ -580,7 +581,12 @@ document.body.appendChild(editItemFormContainer);
                 closeNoteBtn.style.position = 'absolute';
                 closeNoteBtn.style.right = '0';
                 closeNoteBtn.style.top = '0';
-                closeNoteBtn.addEventListener('click', () => noteContainer.remove())
+            closeNoteBtn.addEventListener('click', () => noteContainer.remove())
+            noteContainer.addEventListener('click', (event) => {
+                if (!event.target.closest('.card')) {
+                    noteContainer.remove();
+                }
+            } )
             card.appendChild(closeNoteBtn);
             noteContainer.appendChild(card);
             document.body.appendChild(noteContainer);
