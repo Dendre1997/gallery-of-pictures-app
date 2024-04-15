@@ -85,7 +85,7 @@ class App {
         // })
         // })
         const date = this._gallery.loadDate();
-        const picture = new Picture(+price.value, tag.value, date, note.value)
+        const picture = new Picture(+price.value, tag.value, note.value)
         this._gallery.tagGetGradient(picture)
         this._gallery.addPicture(picture)
 
