@@ -639,6 +639,7 @@ document.body.appendChild(editItemFormContainer);
         // List group nav
         const listgroup = document.createElement('div');
         listgroup.classList.add('list-group');
+
         const listSoldItems = document.createElement('button');
         listSoldItems.setAttribute('type', 'button');
         listSoldItems.textContent = 'Sold Pictures';
@@ -675,7 +676,8 @@ document.body.appendChild(editItemFormContainer);
                 navBar.remove()
                 navBarOuter.remove()
                 this._gallery._displaySoldPictures();
-                document.body.style.overflow = 'scroll';
+                document.body.style.overflow = 'auto';
+                // document.getElementById('pictures-items').style.overflow = 'hidden';
             }
         })
         navBarOuter.addEventListener('click', () => { 

@@ -200,7 +200,7 @@ pictureEl.appendChild(pictureElFlex);
         soldPicContainer.classList.add('sold-pic-container')
         soldPicContainer.style.position = 'absolute'
         soldPicContainer.style.width = '100%'
-        soldPicContainer.style.height = window.innerHeight + 'px'
+        soldPicContainer.style.height = '100%'
         soldPicContainer.style.top = '-10000px'
         soldPicContainer.style.left = '0'
         soldPicContainer.style.backgroundColor = 'white'
@@ -246,7 +246,7 @@ pictureEl.appendChild(pictureElFlex);
         dropDownBtn.setAttribute('type', 'button')
         dropDownBtn.setAttribute('id', 'dropdownMenuButton')
         dropDownBtn.setAttribute('data-toggle', 'dropdown')
-        dropDownBtn.textContent = 'Filter Pictures'
+        dropDownBtn.textContent = 'All Pictures'
 
         // dropDownBtn.setAttribute('aria-haspopup', 'true')
         // dropDownBtn.setAttribute('aria-expanded', 'false')
@@ -255,18 +255,43 @@ pictureEl.appendChild(pictureElFlex);
         const filterBydateSelect = document.createElement('div')
         filterBydateSelect.classList.add('dropdown-menu')
         // filterBydateSelect.setAttribute('aria-labelledby', 'dropdownMenuButton')
+        // options display for 7 days
         const optionLastSevenDays = document.createElement('a')
         optionLastSevenDays.classList.add('dropdown-item')
         optionLastSevenDays.setAttribute('id','display-for-seven-days')
         optionLastSevenDays.setAttribute('href', '#')
-        optionLastSevenDays.textContent = 'Show For Last 7 Days'
+        optionLastSevenDays.textContent = 'Last 7 Days'
+        // Display for Today
+        const optionToday = document.createElement('a')
+        optionToday.classList.add('dropdown-item')
+        optionToday.setAttribute('id','display-for-today')
+        optionToday.setAttribute('href', '#')
+        optionToday.textContent = 'Today'
+        // Yesterday
+        const optionYesterday = document.createElement('a')
+        optionYesterday.classList.add('dropdown-item')
+        optionYesterday.setAttribute('id','display-for-yesterday')
+        optionYesterday.setAttribute('href', '#')
+        optionYesterday.textContent = 'Yesterday'
+        //
+        // Last 30 days
+        const optionThirty = document.createElement('a')
+        optionThirty.classList.add('dropdown-item')
+        optionThirty.setAttribute('id','display-for-thirty-days')
+        optionThirty.setAttribute('href', '#')
+        optionThirty.textContent = 'Last 30 Days'
+        //
+        // Options display all
         const optionDisplayAll = document.createElement('a')
         optionDisplayAll.classList.add('dropdown-item')
         optionDisplayAll.setAttribute('href', '#')
         optionDisplayAll.setAttribute('id', 'display-all-pictures')
-        optionDisplayAll.textContent = 'Show All'
-        filterBydateSelect.appendChild(optionLastSevenDays)
+        optionDisplayAll.textContent = 'All Pictures'
         filterBydateSelect.appendChild(optionDisplayAll)
+        filterBydateSelect.appendChild(optionToday)
+        filterBydateSelect.appendChild(optionYesterday)
+        filterBydateSelect.appendChild(optionLastSevenDays)
+        filterBydateSelect.appendChild(optionThirty)
         
 
         filterBydateContainer.appendChild(dropDownBtn)
@@ -347,8 +372,9 @@ pictureEl.appendChild(pictureElFlex);
         }, 200)
         const reversedArray = soldPicturesArray
         filterBydateSelect.addEventListener('click', (e) => {
-            const filteredElementsSevenDays = this._sortByDate(reversedArray, 'last 7 days')
             if (e.target.getAttribute('id') === 'display-for-seven-days') {
+                const filteredElementsSevenDays = this._sortByDate(reversedArray, 'last 7 days')
+                dropDownBtn.textContent = 'Last 7 days'
                 soldPicturesList.innerHTML = ''
                 soldPicturesList.appendChild(soldPicInfoTable)
                 filteredElementsSevenDays.forEach((picture) => {
@@ -359,6 +385,7 @@ pictureEl.appendChild(pictureElFlex);
                 })
             } else if (e.target.getAttribute('id') === 'display-all-pictures') {
                 soldPicturesList.innerHTML = '';
+                dropDownBtn.textContent = 'All Pictures'
                 soldPicturesList.appendChild(soldPicInfoTable)
                 reversedArray.forEach((picture) => {
                     const picEl = this._displaySoldPicturesElements(picture)        
@@ -366,8 +393,42 @@ pictureEl.appendChild(pictureElFlex);
                     soldPicturesList.appendChild(picEl)
                     // console.log(picture)
                 })
+            } else if (e.target.getAttribute('id') === 'display-for-yesterday') {
+                const filteredElementsSevenDays = this._sortByDate(reversedArray, 'yesterday')
+                dropDownBtn.textContent = 'Yesterday'
+                soldPicturesList.innerHTML = ''
+                soldPicturesList.appendChild(soldPicInfoTable)
+                filteredElementsSevenDays.forEach((picture) => {
+                    const picEl = this._displaySoldPicturesElements(picture)        
+                    filterBydateSelect.style.display = 'none'
+                    soldPicturesList.appendChild(picEl)
+                    // console.log(picture)
+                })
             }
-        })
+            else if (e.target.getAttribute('id') === 'display-for-today') {
+                const filteredElementsToday = this._sortByDate(reversedArray, 'today')
+                soldPicturesList.innerHTML = '';
+                dropDownBtn.textContent = 'Today'
+                soldPicturesList.appendChild(soldPicInfoTable)
+                filteredElementsToday.forEach((picture) => {
+                    const picEl = this._displaySoldPicturesElements(picture)        
+                    filterBydateSelect.style.display = 'none'
+                    soldPicturesList.appendChild(picEl)
+                    // console.log(picture)
+                })
+            } else if (e.target.getAttribute('id') === 'display-for-thirty-days') {
+                const filteredElementsToday = this._sortByDate(reversedArray, 'thirty')
+                soldPicturesList.innerHTML = '';
+                dropDownBtn.textContent = 'Last 30 Days'
+                soldPicturesList.appendChild(soldPicInfoTable)
+                filteredElementsToday.forEach((picture) => {
+                    const picEl = this._displaySoldPicturesElements(picture)        
+                    filterBydateSelect.style.display = 'none'
+                    soldPicturesList.appendChild(picEl)
+                    // console.log(picture)
+                })
+            }
+        }) 
 
     }
     _displaySoldPicturesElements(picture) {
@@ -415,6 +476,34 @@ pictureEl.appendChild(pictureElFlex);
         const elementDate = new Date(today.getFullYear(), month - 1, day); // Note: month - 1 because months are zero-indexed in JavaScript
         return elementDate >= lastSevenDaysStart && elementDate <= today;
     });        
+        } else if (term === 'yesterday') {
+           const yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+
+    filteredElements = filteredElements.filter(element => {
+        const [day, month] = element.soldDate.split("/");
+        const elementDate = new Date(today.getFullYear(), month - 1, day); // Note: month - 1 because months are zero-indexed in JavaScript
+        // return elementDate > yesterday && elementDate < today;
+        return elementDate.getTime() === yesterday.getTime();
+    }); 
+} else if (term === 'today') {
+           const Justtoday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+    filteredElements = filteredElements.filter(element => {
+        const [day, month] = element.soldDate.split("/");
+        const elementDate = new Date(today.getFullYear(), month - 1, day); // Note: month - 1 because months are zero-indexed in JavaScript
+        // return elementDate > yesterday && elementDate < today;
+        return elementDate.getTime() === Justtoday.getTime();
+    }); 
+} else if (term === 'thirty') {
+           const lastThirtyDays = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30);
+
+    filteredElements = filteredElements.filter(element => {
+        const [day, month] = element.soldDate.split("/");
+        const elementDate = new Date(today.getFullYear(), month - 1, day); // Note: month - 1 because months are zero-indexed in JavaScript
+        // return elementDate > yesterday && elementDate < today;
+        // return elementDate.getTime() === Justtoday.getTime();
+        return elementDate >= lastThirtyDays && elementDate <= today;
+    }); 
 }
  return filteredElements;
     
